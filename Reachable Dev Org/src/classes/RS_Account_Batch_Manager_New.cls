@@ -1,4 +1,5 @@
-//Comitted vfbcds vcbv dfsghfsg vcxbxc
+//Comitted 
+
 public with sharing class RS_Account_Batch_Manager_New implements Schedulable
 { 
     Public static void runbatch() 
