@@ -1,0 +1,291 @@
+<apex:page standardController="Contact" extensions="RS_Contactinformation"  sidebar="false" >
+  
+     
+  <apex:outputPanel styleClass="Message" rendered="{!IF((token_exist),false,true)}"> <!-- RS_ReachableLoginPageforleads  -->
+         
+       <apex:pageMessage summary="Please login  either through Reachable Admin Tab or leads tab " severity="warning" strength="3" />
+              
+     <!--  <apex:iframe title="Login to Reachable" src="/apex/RS_Reachablelogpage?id={!$CurrentPage.parameters.Id}" height="410" width="1000"   />-->
+              
+  </apex:outputPanel>
+ 
+     <apex:form rendered="{!token_exist}"> 
+     <apex:pageMessages />
+          <!-- Tab Section Start --->
+         <html >
+            <head>
+              <title></title>
+              <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css"/>
+              <link rel="stylesheet" href="/resources/demos/style.css"/>
+              <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+              <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+              <script>
+              $( function() {
+                $( "#tabs1" ).tabs();
+              } );
+              
+              $( function() {
+                $( "#tabs2" ).tabs();
+              } );
+              </script>
+            </head>
+            <body>
+ 
+ <apex:outputPanel rendered="{!showpanel}">
+ 
+  <div id="tabs1">
+  <apex:outputPanel rendered="{!IF(validatepersoncompanyscore,False,True)}">
+      <ul>
+            <li><apex:outputPanel rendered="{!IF(ReachableEnrichedPersonID<>'0',true,false)}"><a href="#Personpath" class="tabclasses" onClick="showSpinner()">Show Person Path</a></apex:outputPanel></li>
+            <li><apex:outputPanel rendered="{!IF(ReachableEnrichedCompanyID<>'0',true,false)}"><a href="#Companypath" class="tabclasses" onClick="showSpinner()">Show Company Path</a></apex:outputPanel></li>
+            <li><apex:outputPanel rendered="{!IF(ReachableEnrichedPersonID<>'0',true,false)}"><a href="#Personprofile" class="tabclasses" onClick="showSpinner()" >Show Person Profile</a></apex:outputPanel></li>
+            <li><apex:outputPanel rendered="{!IF(ReachableEnrichedCompanyID<>'0',true,false)}"><a href="#Comprofile" class="tabclasses" onClick="showSpinner()">Show Company Profile </a></apex:outputPanel></li>
+             
+             
+            
+      </ul>
+     
+       <div id="Personpath">
+          <apex:iframe title="Show Person Path" rendered="{!IF(ReachableEnrichedPersonID<>'0',true,false)}" src="https://app3.reachable.com/#/widgetize?accessToken={!reachableDecryptedAccessToken}&resource=%2Fresults%2Fperson%2F{!ReachableEnrichedPersonID}"  width="95%" height="1350px"/>  
+       </div>
+       
+       <div id="Companypath">
+          <apex:iframe rendered="{!IF(ReachableEnrichedCompanyID<>'0',true,false)}" title="Show Company Path" src="https://app3.reachable.com/#/widgetize?accessToken={!reachableDecryptedAccessToken}&resource=%2Fresults%2Fcompany%2F{!ReachableEnrichedCompanyID}"  width="95%" height="1350px"/>                        
+       </div>
+       
+       <div id="Personprofile">
+        <apex:iframe rendered="{!IF(ReachableEnrichedPersonID<>'0',true,false)}" title="Show Person Profile" src="https://app3.reachable.com/#/widgetize?accessToken={!reachableDecryptedAccessToken}&resource=%2Fresults%2Fperson%2Fprofile%2F{!ReachableEnrichedPersonID}"  width="95%" height="850px"/>  
+      </div>
+     
+      <div id="Comprofile">
+     <apex:iframe rendered="{!IF(ReachableEnrichedCompanyID<>'0',true,false)}" title="Show Company Profile" src="https://app3.reachable.com/#/widgetize?accessToken={!reachableDecryptedAccessToken}&resource=%2Fresults%2Fcompany%2Fprofile%2F{!ReachableEnrichedCompanyID}" width="95%" height="850px"/>              
+      </div>
+      </apex:outputPanel>
+  </div>
+
+<div id="tabs2">
+
+<apex:outputPanel rendered="{!validatepersoncompanyscore}">
+      <ul>
+         <li><apex:outputPanel rendered="{!IF(ReachableEnrichedPersonID<>'0',true,false)}"><a href="#Personpath" class="tabclasses" >Show Person Path</a></apex:outputPanel></li>
+         <li><apex:outputPanel rendered="{!IF(ReachableEnrichedCompanyID<>'0',true,false)}"><a href="#Companypath" class="tabclasses" >Show Company Path</a></apex:outputPanel></li>
+         <li><apex:outputPanel rendered="{!IF(ReachableEnrichedPersonID<>'0',true,false)}"><a href="#Personprofile" class="tabclasses"  >Show Person Profile</a></apex:outputPanel></li>
+         <li><apex:outputPanel rendered="{!IF(ReachableEnrichedCompanyID<>'0',true,false)}"><a href="#Comprofile" class="tabclasses" >Show Company Profile </a></apex:outputPanel></li>
+      </ul>
+       
+       <div id="Personpath">
+          <apex:pageMessage summary="This record has not been processed by Reachable!" severity="warning" strength="3"/>
+       </div>
+       
+       <div id="Companypath">
+          <apex:pageMessage summary="This record has not been processed by Reachable!" severity="warning" strength="3"/>
+       </div>
+    
+      <div id="Personprofile">
+        <apex:pageMessage summary="This record has not been processed by Reachable!" severity="warning" strength="3"/>
+      </div>
+    
+      <div id="Comprofile">
+        <apex:pageMessage summary="This record has not been processed by Reachable!" severity="warning" strength="3"/>
+      </div>
+    </apex:outputPanel>
+  </div>
+
+
+</apex:outputPanel>
+
+ 
+</body>
+</html>
+</apex:form> 
+      
+   
+      <!--</apex:form>-->
+      <div id="opaque"/>
+   <div id="spinner">
+        <p align="center" style='{font-family:"Arial", Helvetica, sans-serif; font-size:20px;}'><apex:image value="/img/loading.gif"/>Please wait....</p>
+   </div>
+ 
+ 
+ <script>
+   function showSpinner(){
+   document.getElementById('opaque').style.display='block';
+    var myDiv = document.getElementById("spinner"),
+
+      show = function(){
+        myDiv.style.display = "block";
+        setTimeout(hide, 3000); // 5 seconds
+      },
+
+      hide = function(){
+       document.getElementById('opaque').style.display='none';
+        myDiv.style.display = "none";
+      };
+
+    show();
+  };
+   </script>
+ 
+  <style>
+  
+    #spinner{
+        display: none;
+        width:200px;
+        height: 52px;
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        text-align:center;        
+        font:normal 16px Tahoma, Geneva, sans-serif;
+        margin-left: -100px;
+        margin-top: -100px;
+        z-index:2;        
+        z-index:100;        
+        line-height:20px;
+     }
+     
+     #opaque {
+         position: fixed;
+         top: 0px;
+         left: 0px;
+         width: 100%;
+         height: 100%;
+         z-index: 1;
+         display: none;
+         background-color: gray;
+         filter: alpha(opacity=30);
+         opacity: 0.3;
+         -moz-opacity:0.3;
+         -khtml-opacity:0.3
+     }
+     * html #opaque {
+         position: absolute;
+     }
+  </style>
+ <script>
+      
+      
+<script type="text/javascript">
+$('.message a').click(function(){
+   $('form').animate({height: "toggle", opacity: "toggle"}, "slow");
+});
+
+function Forgotpassword() {
+   window.open('https://app3.reachable.com/#/forgotPassword');
+   return false;
+}
+
+</script>
+<style type="text/css">
+.tabclasses {   
+  background:#3d85c6 
+  border: 1px solid #b5b5b5 !important;     
+  font-weight: bold;     font-size: 12px ;     
+  font-family: Arial,Helvetica,sans-serif;         
+  text-decoration: none;    cursor: pointer;    
+  border-radius: 4px;      }
+  
+  </style>
+<style type="text/css">
+.activeTab {
+
+     background-color:#F0F0F0   !important; 
+     border: 1px solid #b5b5b5 !important;
+     margin-left: 3px !important;
+     background-image:none;
+     
+     color: #333 !important;
+     font-weight: bold;
+     font-size: .3em ;
+     font-family: Arial,Helvetica,sans-serif;
+     
+    
+ 
+ }
+.login-page{
+text-align:centre !important;
+
+}
+
+.tabclass{
+    background-color:white  ; /* Green */
+    border: none;
+    color: red;
+    padding:5px 12px !important;
+    text-align: center;
+    text-decoration: none;
+    font-size: 12px;
+    margin: 2px 2px !important;
+    cursor: pointer;
+    font-weight: bold;
+    border-radius: 4px;
+   
+          
+       
+        
+}
+#allsection{
+Width:100% !important;
+height:700px !important;
+}
+    
+<!--.Personprofile{
+margin-left: 135px !important;
+}
+
+.logo {
+    position: absolute;
+    left: 12px;
+    top: 33px;
+    padding-left: 28px;
+    width: 210px;
+    height: 28px;
+}-->
+
+.forgetlnk{    
+       color: #C0C0C0 !important;
+       font-size:17px !important;
+       font-style: Arial !important;
+       
+    }
+
+.Loginbutton{
+       border-radius: 4px;
+       font-size: 15px;
+       padding: 10px 30px;
+       text-align: center !important;
+       color: red !important;
+       width: 25%;
+       height: 40px;  
+       background: #8caeba !important;
+       color: #fff !important;
+       font-size: 13px !important;
+       font-style: Arial !important;  
+    }
+     
+.usernamepassword{
+     
+       width: 42% !important;
+       height: 17px !important;
+       margin-bottom: 23px !important;
+       padding: .5em !important;
+       
+    }
+
+.textcenter{
+        font-style: Helvetica !important;
+        font-size: 36px;
+        font-weight: 400;
+        text-align:center !important;
+      }
+
+.fixed-headerlogo{       
+    font-size: 36px !important;
+    font-weight: 400 !important;
+    margin: 20px !important;
+    margin-top: 8px !important;
+    margin-bottom: 8px !important;
+   }
+
+</style>
+    </apex:page>

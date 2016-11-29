@@ -1,0 +1,231 @@
+<apex:page controller="RS_SendInviationController" sidebar="false" action="{!redirect}" tabStyle="Reachable_Admin__tab">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<apex:includeScript value="//code.jquery.com/jquery-1.10.2.min.js"/>
+<apex:includeScript value="//cdn.datatables.net/1.10.5/js/jquery.dataTables.js"/>
+    <apex:form id="Chkemailsend">    <apex:pagemessages />
+         <apex:pageBlock title="Select User(s) to Send Invitation">        
+          
+       <apex:pageblocktable value="{!Users}" var="cc"  >
+          
+           <apex:column >    <!--  change('{!cc.bool}'); value="{!cc.bool}"    selected="true" -->
+                <apex:facet name="header">
+                 <apex:inputCheckbox onclick="cvCheckAllOrNone(this)" value="{!cc.bool}"   title="Toggle All Rows" />
+                
+                  <!--  <apex:inputCheckbox id="hcheck" value="{!cc.bool}" styleClass="mychk" onclick="selectAllCheckboxes(this,'inputId')" /> inputId-->
+                </apex:facet>  
+                <apex:inputCheckbox value="{!cc.bool}" id="inputId" onclick="headercheckbox()" /> 
+
+           </apex:column>  
+               
+              <apex:column value="{!cc.con.UserName}" headerValue="User Name"/>
+              <apex:column value="{!cc.con.Email}"/> 
+         
+          </apex:pageblocktable>  
+            <div>
+                <apex:commandButton value="Send Invitation"  action="{!SendInvitation}" />
+            </div>
+
+ 
+ <apex:pageBlockButtons location="bottom" styleClass="btnalign"> <!-- location="bottom">          -->
+  
+     
+   <apex:outputText styleClass="otext" value="Showing Page {!pageNumber} of  {!totalPages}" />
+  
+        <apex:commandButton value="First" action="{!Setcon.First}" reRender="Chkemailsend" id="firstbtn" disabled="{!FirstPage}" onclick="showSpinner()"/>
+        <apex:commandButton value="Previous" action="{!Setcon.Previous}" reRender="Chkemailsend" id="secondbtn"  disabled="{!FirstPage}" onclick="showSpinner()" />
+        <apex:commandButton value="Next" action="{!Setcon.Next}" reRender="Chkemailsend" id="thirdbtn" disabled="{!LastPrevious}"  onclick="showSpinner()"/>
+        <apex:commandButton value="Last" action="{!Setcon.Last}" reRender="Chkemailsend" id="forthbtn" disabled="{!LastPrevious}"  onclick="showSpinner()"/>
+ </apex:pageBlockButtons>
+ 
+ 
+</apex:pageblock>
+  <div align="center">
+                <apex:commandButton value="Proceed to Enrich Scores"  action="{!EnrichOrgLeads}" />   <!-- action="{!SendInvitation}"   --->
+            </div>
+
+</apex:form>
+ <div id="opaque"/>
+   <div id="spinner">
+        <p align="center" style='{font-family:"Arial", Helvetica, sans-serif; font-size:20px;}'><apex:image value="/img/loading.gif"/>Please wait....</p>
+   </div>
+ 
+ <script>
+ 
+ </script>
+ <script>
+   function showSpinner(){
+   document.getElementById('opaque').style.display='block';
+    var myDiv = document.getElementById("spinner"),
+
+      show = function(){
+        myDiv.style.display = "block";
+        setTimeout(hide, 1000); // 5 seconds
+      },
+
+      hide = function(){
+       document.getElementById('opaque').style.display='none';
+        myDiv.style.display = "none";
+      };
+
+    show();
+  };
+   </script>
+ 
+  <style>
+  
+    #spinner{
+        display: none;
+        width:200px;
+        height: 52px;
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        text-align:center;        
+        font:normal 16px Tahoma, Geneva, sans-serif;
+        margin-left: -100px;
+        margin-top: -100px;
+        z-index:2;        
+        z-index:100;        
+        line-height:20px;
+     }
+     
+     #opaque {
+         position: fixed;
+         top: 0px;
+         left: 0px;
+         width: 100%;
+         height: 100%;
+         z-index: 1;
+         display: none;
+         background-color: gray;
+         filter: alpha(opacity=30);
+         opacity: 0.3;
+         -moz-opacity:0.3;
+         -khtml-opacity:0.3
+     }
+     * html #opaque {
+         position: absolute;
+     }
+  </style>
+ <script>
+ function cvCheckAllOrNone(allOrNoneCheckbox) {
+
+    // Find parent table
+    var container = allOrNoneCheckbox;
+    while (container.tagName != "TABLE") {
+        container = container.parentNode;       
+    } 
+
+    // Switch all checkboxes
+    var inputs = container.getElementsByTagName("input");
+ 
+    var checked = allOrNoneCheckbox.checked;    
+    for (var i = 0; i < inputs.length; i++) { 
+        var input = inputs.item(i);                     
+        if (input.type == "checkbox") {
+            if (input != allOrNoneCheckbox) {
+                input.checked = checked;
+            }            
+            
+        }
+        else
+        {
+         <!-- input.checked = false;  -->
+        }
+    } 
+}
+  
+
+</script>  
+ 
+ 
+ 
+<script type="text/javascript">
+var $j = jQuery.noConflict();
+function toggleCheckAll(checkAllBox) {
+    $j('.checkableTable :checkbox').prop('checked', checkAllBox.checked);
+}
+
+        function selectAllCheckboxes(obj,receivedInputID){          
+            var inputCheckBox = document.getElementsByTagName("input");                 
+        
+            for(var i=0; i<inputCheckBox.length; i++){
+                if(inputCheckBox[i].id.indexOf(receivedInputID)!=-1){
+                     
+                     inputCheckBox[i].checked = obj.checked;                    
+                } 
+                          
+            }  
+            
+        }      
+</script>   
+
+
+<style type="text/css">
+
+        .abc{
+        color:white !important;
+        background:#31AFF5!important;
+        font-size:12px !important;
+        }
+        .abc1
+        {
+        color:white !important;
+        background:#31AFF5 !important;
+        font-size:12px !important;
+        margin-left:50px !important;
+        }
+        .otext{
+        margin-left:5px !important;
+        font-size:15px !important;  
+          float: left !important;   
+             
+        }
+        .btnalign{
+        text-align:right !important;       
+        }
+       .pbBottomButtons .pbTitle{
+        width:0px !important;
+        }
+        .Sendbtn{
+        marign-left:50px !important;
+        
+        }
+</style>   
+ <style type="text/css">
+        .custPopup{
+            background-color: white;
+            border-width: 2px;
+            border-style: solid;
+            z-index: 9999;
+            left: 50%;
+            padding:30px;
+            font-size:12px;
+            position: absolute;
+            width: 375px;
+            margin-left: -234px;
+            top:100px;
+            text-align:center;
+            color:green;
+   
+        }
+        .popupBackground{
+            background-color:black;
+            opacity: 0.20;
+            filter: alpha(opacity = 20);
+            position: absolute;
+            width: 100%;
+            height: 120%;
+            top: -100px; 
+            color:green !important;
+            left: 0;
+            z-index: 9998;   <!-- top:  height: 100%; top: 0;  -->
+        }
+
+    </style>
+    <script>
+    $(document).ready(function(){
+    //   alert('hello jquery');
+      })
+</script>
+</apex:page>

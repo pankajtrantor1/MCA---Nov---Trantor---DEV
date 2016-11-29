@@ -1,0 +1,12 @@
+<apex:page standardController="Account" extensions="RS_AccountCalculateScore">
+   <body style="background-color:#fff;">
+  <style>
+  .gradeStyle{
+   color:#4A4A56;
+  }
+  
+  </style>
+  
+ <center><span class="gradeStyle"><b>Company Score  </b></span>&nbsp;&nbsp;&nbsp;&nbsp; <apex:outputText value="{!CompanyScore}"></apex:outputText></center>
+ </body> 
+</apex:page>

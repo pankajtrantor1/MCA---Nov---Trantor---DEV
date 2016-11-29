@@ -1,0 +1,48 @@
+<apex:page controller="rs_partnerlogincontroller" sidebar="true" tabStyle="Account" docType="html-5.0">
+<apex:form > <apex:pagemessages />
+ <apex:pageBlock title="Welcome to Reachable, Please login">      
+
+ 
+<div class="login-page">
+  <div class="form">
+    <form class="login-form">
+     <div style="text-align:center">
+     <apex:image id="theImage" value="{!$Resource.reachable_logo}" width="130" height="20"/><br/><br/>
+      <apex:inputText value="{!username}" html-placeholder="Username"/><br/><br/>
+      <apex:inputsecret value="{!password}" html-placeholder="Password"/><br/><br/>
+      <apex:commandButton styleClass="btntest" action="{!Login}" value="Login"/><br/><br/>
+      <!--<apex:commandLink styleClass="forgetlnk" value="Forgot Password" action="{!ForgotPassword}" onclick="{!forgeturllink}"/>-->
+      
+      <apex:commandLink styleClass="forgetlnk" value="Forgot Password" onclick="Forgotpassword()"/>
+      </div>
+    </form>
+  </div></div>
+  
+
+
+ <script type="text/javascript">
+$('.message a').click(function(){
+   $('form').animate({height: "toggle", opacity: "toggle"}, "slow");
+});
+
+function Forgotpassword() {
+   window.open('https://app3.reachable.com/#/forgotPassword');
+   return false;
+}
+
+</script>
+
+<style type="text/css">
+.forgetlnk{
+text-align:center !important;
+
+}
+.btntest
+{
+width:100px !important;
+}
+</style>
+ 
+</apex:pageBlock>
+</apex:form>
+</apex:page>

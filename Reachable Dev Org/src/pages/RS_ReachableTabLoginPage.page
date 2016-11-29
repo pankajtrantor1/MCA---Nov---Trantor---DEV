@@ -1,0 +1,79 @@
+<apex:page controller="RS_ReachableTabLoginPageController" tabStyle="Reachable_Admin__tab" sidebar="false" showHeader="true" >
+
+
+
+<div>
+
+<apex:image styleClass="fixed-header" value="{!$Resource.reachable_logo}" />
+</div>
+<div class="login-page">
+  <div class="form">
+    <apex:form styleClass="login-form">
+    <apex:pageMessages />
+     <div style="text-align:center;margin-top:50px;">
+          <apex:outputText styleClass="textcenter" value="Log in to your Reachable account!"/><br/><br/>
+          <apex:inputText styleClass="usernamepassword " value="{!username}" html-placeholder="Username"/><br/>
+          <apex:inputsecret styleClass="usernamepassword " value="{!password}" html-placeholder="Password"/><br/>
+          <apex:commandButton styleClass="Loginbutton" action="{!Login}" value="Login"/><br/><br/>
+          <apex:commandLink styleClass="forgetlnk" value="" onclick="Forgotpassword()">Forgot your password?</apex:commandLink> <br/><br/><br/><br/><br/><br/><br/><br/>
+      </div>
+      </apex:form>
+  </div></div>
+
+ <script type="text/javascript">
+$('.message a').click(function(){
+   $('form').animate({height: "toggle", opacity: "toggle"}, "slow");
+});
+
+function Forgotpassword() {
+   window.open('https://app3.reachable.com/#/forgotPassword');
+   return false;
+}
+</script>
+
+<style type="text/css">
+
+.forgetlnk{    
+       color: #C0C0C0 !important;
+       font-size:17px !important;
+       font-style: Arial !important;
+    }
+
+.Loginbutton{
+       border-radius: 4px;
+       font-size: 15px;
+       padding: 10px 30px;
+       text-align: center;
+       color: #fff !important;
+       width: 25%;
+       height: 40px;  
+       background: #8caeba !important;
+       color: #fff !important;
+       font-size: 13px !important;
+       font-style: Arial !important;  
+    }
+     
+.usernamepassword{
+       width: 42% !important;
+       height: 17px !important;
+       margin-bottom: 23px !important;
+       padding: .5em !important;
+    }
+
+.textcenter{
+        font-style: Helvetica !important;
+        font-size: 36px;
+        font-weight: 400;
+      }
+
+.fixed-header{       
+          
+    font-size: 36px;
+    font-weight: 400;
+    margin: 0;
+    margin-top: 8px;
+    margin-bottom: 8px;
+   }
+  
+</style>
+</apex:page>

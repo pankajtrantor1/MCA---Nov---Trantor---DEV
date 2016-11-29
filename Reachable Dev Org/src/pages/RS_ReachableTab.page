@@ -1,0 +1,123 @@
+<apex:page controller="RS_ReachableTabController" action="{!redirectuser}" sidebar="false" tabStyle="Reachable__tab">
+  
+     <!-- <apex:form >-->
+      <apex:pageBlock id="Reachablesection1">
+          <apex:iframe title="Show Company Profile" src="https://app3.reachable.com/#/widgetize?accessToken={!reachableDecryptedAccessToken}&resource=%2Freach" width="100%" scrolling="true" /> 
+      </apex:pageBlock>
+      <!--</apex:form>-->
+      
+<script type="text/javascript">
+$('.message a').click(function(){
+   $('form').animate({height: "toggle", opacity: "toggle"}, "slow");
+});
+
+function Forgotpassword() {
+   window.open('https://app3.reachable.com/#/forgotPassword');
+   return false;
+}
+
+</script>
+
+<style type="text/css">
+.activeTab {
+
+     background-color:#F0F0F0   !important; 
+     border: 1px solid #b5b5b5 !important;
+     margin-left: 3px !important;
+     background-image:none;
+     
+     color: #333 !important;
+     font-weight: bold;
+     font-size: .3em ;
+     font-family: Arial,Helvetica,sans-serif;
+     
+    
+ 
+ }
+.login-page{
+text-align:centre !important;
+
+}
+
+.tabclass{
+    background-color:white  ; /* Green */
+    border: none;
+    color: red;
+    padding:5px 12px !important;
+    text-align: center;
+    text-decoration: none;
+    font-size: 12px;
+    margin: 2px 2px !important;
+    cursor: pointer;
+    font-weight: bold;
+    border-radius: 4px;
+   
+          
+       
+        
+}
+#allsection{
+Width:100% !important;
+height:700px !important;
+}
+    
+<!--.Personprofile{
+margin-left: 135px !important;
+}
+
+.logo {
+    position: absolute;
+    left: 12px;
+    top: 33px;
+    padding-left: 28px;
+    width: 210px;
+    height: 28px;
+}-->
+
+.forgetlnk{    
+       color: #C0C0C0 !important;
+       font-size:17px !important;
+       font-style: Arial !important;
+       
+    }
+
+.Loginbutton{
+       border-radius: 4px;
+       font-size: 15px;
+       padding: 10px 30px;
+       text-align: center !important;
+       color: red !important;
+       width: 25%;
+       height: 40px;  
+       background: #8caeba !important;
+       color: #fff !important;
+       font-size: 13px !important;
+       font-style: Arial !important;  
+    }
+     
+.usernamepassword{
+     
+       width: 42% !important;
+       height: 17px !important;
+       margin-bottom: 23px !important;
+       padding: .5em !important;
+       
+    }
+
+.textcenter{
+        font-style: Helvetica !important;
+        font-size: 36px;
+        font-weight: 400;
+        text-align:center !important;
+      }
+
+.fixed-headerlogo{       
+    font-size: 36px !important;
+    font-weight: 400 !important;
+    margin: 20px !important;
+    margin-top: 8px !important;
+    margin-bottom: 8px !important;
+   }
+
+</style>
+    </apex:page>

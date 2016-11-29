@@ -1,0 +1,49 @@
+<apex:page controller="RS_admin_lead_enrich_controller" sidebar="true" tabStyle="Reachable_Admin__tab">
+  <apex:form id="formid">
+  <apex:outputpanel id="customCheckboxPanel" layout="block">
+  <apex:pageMessages ></apex:pageMessages>
+  
+ 
+  
+    <apex:pageBlock title="Grant Permissions" id="pageblckid">
+        <apex:pageBlockSection id="pgblcksctid" columns="1">
+         <apex:pageMessage summary="Please select 'Enrich Scores' checkbox to enrich records!" 
+         severity="info" strength="2" />
+           <apex:inputCheckbox value="{!Enrich_Lead}" onchange="functionforbatch()"  id="chkScoreBox" label="Grant Permission to Enrich Lead Scores" disabled="{!Enrich_Lead}"/> 
+           <apex:inputCheckbox value="{!Enrich_Contact}" onchange="functionforbatchforContact()"  id="chkContactScoreBox" label="Grant Permission to Enrich Contact Scores" disabled="{!Enrich_Contact}" /> 
+           <apex:inputCheckbox value="{!Enrich_Account}" onchange="functionforbatchaccount()" id="chkAccountScoreBox" label="Grant Permission to Enrich Account Scores" disabled="{!Enrich_Account}" /> 
+         </apex:pageBlockSection>
+         
+        <apex:pageBlockButtons location="bottom">
+        
+          <apex:actionFunction action="{!Finish}" name="functionforbatch" reRender="customCheckboxPanel" />
+          <apex:actionFunction action="{!Finish_Contact}" name="functionforbatchforContact" reRender="customCheckboxPanel" />
+          <apex:actionFunction action="{!Finish_Account}" name="functionforbatchaccount" reRender="customCheckboxPanel" />
+          <apex:commandButton value="Schedule Batch Enrichment"  action="{!scheduleDailyBatch}"  disabled="{!IF(Enrich_Lead,false,true)}"/>
+        
+        </apex:pageBlockButtons>        
+                 
+    </apex:pageBlock>
+     </apex:outputPanel>
+   
+  </apex:form>  
+  
+  
+<script language="javascript">
+
+function checkboxChecked(){
+  if(document.getElementById('{!$Component.formid.pageblckid.pgblcksctid.chkScoreBox}').checked)
+  {
+   confirm('By checking this box, you are granting permission to enrich leads');
+   }
+  else if(document.getElementById('{!$Component.formid.pageblckid.pgblcksctid.chkContactScoreBox}').checked)
+  {
+   confirm('By checking this box, you are granting permission to enrich Contacts');
+   }
+ else (document.getElementById('{!$Component.formid.pageblckid.pgblcksctid.chkAccountScoreBox}').checked)
+  {
+   confirm('By checking this box, you are granting permission to enrich Accounts');
+   }
+ }  
+</script>
+</apex:page>
